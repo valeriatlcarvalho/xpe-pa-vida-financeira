@@ -17,13 +17,30 @@ function ListAll({ data, onEdit, onDelete }) {
     getCards();
   }, []);
 
-  const getCardName = useCallback(
-    (id) => {
-      const found = cards.find((card) => String(card.id) === String(id));
-      return found?.name;
-    },
-    [cards]
-  );
+  function getCardName(id) {
+    const found = cards.find((card) => String(card.id) === String(id));
+
+    return found?.name;
+  }
+
+  function renderPeriod(subscription) {
+    const plural = subscription.repeatBy > 1;
+    let period = "";
+
+    switch (subscription.period) {
+      case "day":
+        period = plural ? "dias" : "dia";
+        break;
+      case "month":
+        period = plural ? "meses" : "mês";
+        break;
+      default:
+        period = plural ? "anos" : "ano";
+        break;
+    }
+
+    return `${subscription.repeatBy} ${period}`;
+  }
 
   return (
     <List>
@@ -122,7 +139,7 @@ function ListAll({ data, onEdit, onDelete }) {
                     color="text.primary"
                     align="right"
                   >
-                    {`Repete-se a cada ${item.repeatBy} ${item.period}`}
+                    {`Repete-se a cada ${renderPeriod(item)}`}
                   </Typography>
                 </div>
               </Grid>
