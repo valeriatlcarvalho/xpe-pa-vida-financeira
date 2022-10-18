@@ -27,6 +27,18 @@
       "dueDay": "12",
       "limit": "1200",
       "bankAccount": "conta-corrente"
+    },
+    {
+      "id": 3,
+      "invoice": "",
+      "availableLimit": "960,00",
+      "futureInvoices": "",
+      "flag": "visa",
+      "name": "Caixa",
+      "closingDay": "25",
+      "dueDay": "4",
+      "limit": "960,00",
+      "bankAccount": "conta-corrente"
     }
   ],
   "subscriptions": [

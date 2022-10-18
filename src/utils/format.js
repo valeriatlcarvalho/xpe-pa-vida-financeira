@@ -1,5 +1,5 @@
 export function money(value) {
-  return Number(value).toLocaleString("pt-BR", {
+  return Number(String(value).replace(',','.')).toLocaleString("pt-BR", {
     currency: "BRL",
     style: "currency",
   });

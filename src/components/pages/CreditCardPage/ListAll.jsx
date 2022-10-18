@@ -8,9 +8,25 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import { compareAsc } from "date-fns";
 import { digits, money } from "../../../utils/format";
 
 function ListAll({ data, onEdit, onDelete }) {
+  function renderInvoiceStatus(card) {
+    const today = new Date();
+    const closingDate = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      card.closingDay
+    );
+    const result = compareAsc(today, closingDate);
+
+    if (result === 1) {
+      return <Chip size="small" color="error" label="Fechada" />;
+    }
+    return <Chip size="small" color="info" label="Aberta" />;
+  }
+
   return (
     <List>
       {data.map((item, index) => (
@@ -124,7 +140,7 @@ function ListAll({ data, onEdit, onDelete }) {
                     justifyContent: "flex-end",
                   }}
                 >
-                  <Chip size="small" color="error" label="Fechada" />
+                  {renderInvoiceStatus(item)}
                 </div>
               </Grid>
             </Grid>

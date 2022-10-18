@@ -108,7 +108,7 @@ function ListAll({ data, onEdit, onDelete }) {
                   color="text.primary"
                   align="right"
                 >
-                  {money(item.value.replace(",", "."))}
+                  {money(item.value)}
                 </Typography>
                 <div
                   style={{

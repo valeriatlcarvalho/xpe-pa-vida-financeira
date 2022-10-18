@@ -86,7 +86,7 @@ function CreditCardPage() {
         setShowForm(false);
         await getCards();
         setFeedback({
-          message: "Cartão cadastrado com sucesso!",
+          message: "Cartão editado com sucesso!",
           severity: "success",
           onClose: () => {
             setFeedback(null);
