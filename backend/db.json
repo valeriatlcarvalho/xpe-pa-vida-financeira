@@ -1,0 +1,97 @@
+{
+  "bankAccounts": [],
+  "categories": [],
+  "revenues": [],
+  "expenses": [],
+  "cards": [
+    {
+      "id": 1,
+      "invoice": "",
+      "availableLimit": "2500",
+      "futureInvoices": "",
+      "flag": "mastercard",
+      "name": "Inter",
+      "closingDay": "12",
+      "dueDay": "20",
+      "limit": "2500",
+      "bankAccount": "conta-corrente"
+    },
+    {
+      "id": 2,
+      "invoice": "",
+      "availableLimit": "1200",
+      "futureInvoices": "",
+      "flag": "visa",
+      "name": "Neon",
+      "closingDay": "4",
+      "dueDay": "12",
+      "limit": "1200",
+      "bankAccount": "conta-corrente"
+    }
+  ],
+  "subscriptions": [
+    {
+      "id": 1,
+      "card": "2",
+      "name": "Netflix",
+      "billingDay": "21",
+      "value": "39,90",
+      "repeatBy": "1",
+      "period": "month"
+    },
+    {
+      "id": 2,
+      "card": "1",
+      "name": "HBO Max",
+      "billingDay": "25",
+      "value": "27,90",
+      "repeatBy": "1",
+      "period": "month"
+    },
+    {
+      "id": 3,
+      "card": "1",
+      "name": "Disney+",
+      "billingDay": "10",
+      "value": "27,90",
+      "repeatBy": "1",
+      "period": "month"
+    },
+    {
+      "id": 4,
+      "card": "2",
+      "name": "Amazon Prime",
+      "billingDay": "15",
+      "value": "119,00",
+      "repeatBy": "1",
+      "period": "year"
+    },
+    {
+      "id": 5,
+      "card": "2",
+      "name": "Youtube Prime",
+      "billingDay": "9",
+      "value": "20,90",
+      "repeatBy": "1",
+      "period": "month"
+    },
+    {
+      "id": 6,
+      "card": "2",
+      "name": "Spotify",
+      "billingDay": "7",
+      "value": "19,90",
+      "repeatBy": "1",
+      "period": "month"
+    },
+    {
+      "id": 7,
+      "card": "2",
+      "name": "Xbox Game Pass Ultimate",
+      "billingDay": "13",
+      "value": "44,99",
+      "repeatBy": "1",
+      "period": "month"
+    }
+  ]
+}
