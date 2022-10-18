@@ -31,15 +31,6 @@
   ],
   "subscriptions": [
     {
-      "id": 1,
-      "card": "2",
-      "name": "Netflix",
-      "billingDay": "21",
-      "value": "39,90",
-      "repeatBy": "1",
-      "period": "month"
-    },
-    {
       "id": 2,
       "card": "1",
       "name": "HBO Max",

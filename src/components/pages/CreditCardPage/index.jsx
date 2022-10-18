@@ -1,11 +1,13 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { Box, Button, Collapse, Grid, Paper } from "@mui/material";
 import { breadcrumbs } from "./breadcrumbs";
 import FormCards from "./Form";
-import { createCard, listCards, updateCard } from "../../../services/cards";
+import { createCard, listCards, updateCard, deleteCard } from "../../../services/cards";
 import { ListAll } from "./ListAll";
 import { Alerts } from "../../../utils/alerts";
 import { HeaderBar } from "../../molecules/HeaderBar";
+import { CircularProgress } from "../../atoms/CircularProgress";
+import { DeleteDialog } from "./DeleteDialog";
 
 const initialEmpty = {
   id: "",
@@ -23,38 +25,86 @@ const initialEmpty = {
 const fields = ["flag", "name", "closingDay", "dueDay", "limit", "bankAccount"];
 
 function CreditCardPage() {
+  const [isLoading, setIsLoading] = useState(false);
   const [showForm, setShowForm] = useState(false);
+  const [showDialogDelete, setShowDialogDelete] = useState(false);
   const [feedback, setFeedback] = useState(false);
   const [selectedItem, setSelectedItem] = useState(initialEmpty);
   const [validateFields] = useState(fields);
   const [cards, setCards] = useState([]);
 
   async function getCards() {
-    const data = await listCards();
-    setCards(data);
+    setIsLoading(true);
+    listCards()
+      .then((response) => {
+        setCards(response);
+      })
+      .catch(() => {
+        setFeedback({
+          message: "Ocorreu um problema ao recuperar os cartões.",
+          severity: "error",
+          onClose: () => {
+            setFeedback(null);
+          },
+        });
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }
 
   async function onSave(values) {
-    let response = null;
-    let feedback = null;
+    setIsLoading(true);
     if (!values.id) {
-      response = await createCard(values);
-      feedback = "Cartão de crédito adicionado com sucesso!";
+      createCard(values)
+        .then(async () => {
+          setShowForm(false);
+          await getCards();
+          setFeedback({
+            message: "Cartão cadastrado com sucesso!",
+            severity: "success",
+            onClose: () => {
+              setFeedback(null);
+            },
+          });
+        })
+        .catch(() => {
+          setFeedback({
+            message: "Ocorreu um erro ao cadastrar o cartão.",
+            severity: "error",
+            onClose: () => {
+              setFeedback(null);
+            },
+          });
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
     } else {
-      response = await updateCard(values.id, values);
-      feedback = "Cartão de crédito alterado com sucesso!";
-    }
-
-    if (response) {
-      setFeedback({
-        message: feedback,
-        severity: "success",
-        onClose: () => {
-          setFeedback(null);
-        },
+      updateCard(values.id, values)
+      .then(async () => {
+        setShowForm(false);
+        await getCards();
+        setFeedback({
+          message: "Cartão cadastrado com sucesso!",
+          severity: "success",
+          onClose: () => {
+            setFeedback(null);
+          },
+        });
+      })
+      .catch(() => {
+        setFeedback({
+          message: "Ocorreu um erro ao editar o cartão.",
+          severity: "error",
+          onClose: () => {
+            setFeedback(null);
+          },
+        });
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
-      setShowForm(false);
-      getCards();
     }
   }
 
@@ -69,13 +119,59 @@ function CreditCardPage() {
   }, [showForm]);
 
   useEffect(() => {
+    if (showDialogDelete === false) {
+      setSelectedItem(initialEmpty);
+    }
+  }, [showDialogDelete]);
+
+  useEffect(() => {
     getCards();
   }, []);
 
-  const openForm = useCallback((card) => {
+  function handleClickOnNewOrEdit(card) {
     setSelectedItem(card);
     setShowForm(true);
-  }, []);
+  }
+
+  function handleClickOnDelete(card) {
+    setSelectedItem(card);
+    setShowDialogDelete(true);
+  }
+
+  function handleDialogDeleteClose() {
+    setShowDialogDelete(false);
+  }
+
+  function handleDialogDeleteCancel() {
+    setShowDialogDelete(false);
+  }
+
+  async function handleDialogDeleteConfirm() {
+    deleteCard(selectedItem.id)
+      .then(() => {
+        setShowDialogDelete(false);
+        getCards();
+        setFeedback({
+          message: "Assinatura excluída com sucesso.",
+          severity: "success",
+          onClose: () => {
+            setFeedback(null);
+          },
+        });
+      })
+      .catch(() => {
+        setFeedback({
+          message: "Assinatura não pôde ser excluída.",
+          severity: "error",
+          onClose: () => {
+            setFeedback(null);
+          },
+        });
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }
 
   return (
     <Grid container mb={2}>
@@ -86,7 +182,7 @@ function CreditCardPage() {
               <Button
                 variant="contained"
                 color="secondary"
-                onClick={() => openForm(initialEmpty)}
+                onClick={() => handleClickOnNewOrEdit(initialEmpty)}
               >
                 Novo
               </Button>
@@ -116,8 +212,24 @@ function CreditCardPage() {
           </Collapse>
 
           <Box>
-            <ListAll data={cards} onOpenForm={openForm} />
+            {isLoading ? (
+              <CircularProgress />
+            ) : (
+              <ListAll
+                data={cards}
+                onEdit={handleClickOnNewOrEdit}
+                onDelete={handleClickOnDelete}
+              />
+            )}
           </Box>
+
+          <DeleteDialog
+            title={selectedItem.name}
+            show={showDialogDelete}
+            onClose={handleDialogDeleteClose}
+            onCancel={handleDialogDeleteCancel}
+            onConfirm={handleDialogDeleteConfirm}
+          />
         </Box>
       </Grid>
     </Grid>

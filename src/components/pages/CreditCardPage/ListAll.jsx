@@ -10,7 +10,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { digits, money } from "../../../utils/format";
 
-function ListAll({ data, onOpenForm }) {
+function ListAll({ data, onEdit, onDelete }) {
   return (
     <List>
       {data.map((item, index) => (
@@ -33,7 +33,7 @@ function ListAll({ data, onOpenForm }) {
               >
                 <Grid item>
                   <IconButton
-                    onClick={() => onOpenForm(item)}
+                    onClick={() => onEdit(item)}
                     color="primary"
                     size="small"
                     variant="outlined"
@@ -43,7 +43,7 @@ function ListAll({ data, onOpenForm }) {
                 </Grid>
                 <Grid item>
                   <IconButton
-                    onClick={() => onOpenForm(item)}
+                    onClick={() => onDelete(item)}
                     color="primary"
                     size="small"
                     variant="outlined"
