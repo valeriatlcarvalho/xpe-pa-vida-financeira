@@ -1,22 +1,9 @@
-import { useCallback, useState, useEffect } from "react";
 import { Grid, IconButton, List, ListItem, Typography } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { digits, money } from "../../../utils/format";
-import { listCards } from "../../../services/cards";
 
-function ListAll({ data, onEdit, onDelete }) {
-  const [cards, setCards] = useState([]);
-
-  async function getCards() {
-    const cardsData = await listCards();
-    setCards(cardsData);
-  }
-
-  useEffect(() => {
-    getCards();
-  }, []);
-
+function ListAll({ data, cards, onEdit, onDelete }) {
   function getCardName(id) {
     const found = cards.find((card) => String(card.id) === String(id));
 

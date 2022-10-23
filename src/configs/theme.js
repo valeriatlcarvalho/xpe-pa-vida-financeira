@@ -11,7 +11,6 @@ const themeOptions = {
   },
   spacing: 8,
   typography: {
-    // fontFamily: "Open Sans",
     fontSize: 16,
   },
 };

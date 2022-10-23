@@ -95,6 +95,15 @@
       "value": "44,99",
       "repeatBy": "1",
       "period": "month"
+    },
+    {
+      "id": 8,
+      "card": "3",
+      "name": "Netflix",
+      "billingDay": "29",
+      "value": "39,90",
+      "repeatBy": "1",
+      "period": "month"
     }
   ]
 }

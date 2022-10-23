@@ -12,15 +12,15 @@ function App() {
     <>
       <ThemeProvider theme={theme}>
         <BrowserRouter basename="/">
-          <Container maxWidth="lg">
-            <Header>
-              <Menu routes={APP_ROUTES} />
-            </Header>
+          <Header>
+            <Menu routes={APP_ROUTES} />
+          </Header>
 
-            <Main>
+          <Main>
+            <Container maxWidth="lg">
               <Pages routes={APP_ROUTES} />
-            </Main>
-          </Container>
+            </Container>
+          </Main>
         </BrowserRouter>
       </ThemeProvider>
     </>

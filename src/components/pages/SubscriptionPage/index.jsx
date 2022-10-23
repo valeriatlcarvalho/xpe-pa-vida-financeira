@@ -1,5 +1,15 @@
 import { useState, useEffect } from "react";
-import { Box, Button, Collapse, Grid, Paper } from "@mui/material";
+import {
+  Box,
+  Button,
+  Collapse,
+  FormControl,
+  Grid,
+  MenuItem,
+  Paper,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { breadcrumbs } from "./breadcrumbs";
 import FormSubscriptions from "./Form";
 import {
@@ -13,6 +23,8 @@ import { Alerts } from "../../../utils/alerts";
 import { HeaderBar } from "../../molecules/HeaderBar";
 import { DeleteDialog } from "./DeleteDialog";
 import { CircularProgress } from "../../atoms/CircularProgress";
+import { listCards } from "../../../services/cards";
+import { useCallback } from "react";
 
 const initialEmpty = {
   id: "",
@@ -34,10 +46,21 @@ function SubscriptionPage() {
   const [selectedItem, setSelectedItem] = useState(initialEmpty);
   const [validateFields] = useState(fields);
   const [subscriptions, setSubscriptions] = useState([]);
+  const [cards, setCards] = useState([]);
+  const [filterByCard, setFilterByCard] = useState(null);
 
-  async function getSubscriptions() {
+  async function getCards() {
+    const cardsData = await listCards();
+    setCards(cardsData);
+  }
+
+  useEffect(() => {
+    getCards();
+  }, []);
+
+  async function getSubscriptions(params) {
     setIsLoading(true);
-    listSubscriptions()
+    listSubscriptions(params)
       .then((response) => {
         setSubscriptions(response);
       })
@@ -84,29 +107,29 @@ function SubscriptionPage() {
         });
     } else {
       updateSubscription(values.id, values)
-      .then(async () => {
-        setShowForm(false);
-        await getSubscriptions();
-        setFeedback({
-          message: "Assinatura editada com sucesso!",
-          severity: "success",
-          onClose: () => {
-            setFeedback(null);
-          },
+        .then(async () => {
+          setShowForm(false);
+          await getSubscriptions();
+          setFeedback({
+            message: "Assinatura editada com sucesso!",
+            severity: "success",
+            onClose: () => {
+              setFeedback(null);
+            },
+          });
+        })
+        .catch(() => {
+          setFeedback({
+            message: "Ocorreu um erro ao editar a assinatura.",
+            severity: "error",
+            onClose: () => {
+              setFeedback(null);
+            },
+          });
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
-      })
-      .catch(() => {
-        setFeedback({
-          message: "Ocorreu um erro ao editar a assinatura.",
-          severity: "error",
-          onClose: () => {
-            setFeedback(null);
-          },
-        });
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
     }
   }
 
@@ -175,6 +198,24 @@ function SubscriptionPage() {
       });
   }
 
+  const renderCardsOptions = useCallback(() => {
+    let options = [
+      <MenuItem value={null} selected>
+        Todos
+      </MenuItem>,
+    ];
+
+    cards.forEach((card) => {
+      options.push(
+        <MenuItem value={card.id} key={`filter-by-card-${card.id}`}>
+          {card.name}
+        </MenuItem>
+      );
+    });
+
+    return options;
+  }, [cards]);
+
   return (
     <Grid container mb={2}>
       <Grid item xs={12} display="flex" justifyContent="flex-end">
@@ -213,12 +254,50 @@ function SubscriptionPage() {
             </Paper>
           </Collapse>
 
+          <Box
+            sx={{
+              borderStyle: "dashed",
+              borderWidth: "1px",
+              borderRadius: 2,
+              borderColor: "secondary.main",
+              p: 2,
+              mt: 2,
+            }}
+          >
+            <Grid container item xs={12} md={6} lg={4} xl={3}>
+              <Typography variant="body2" mb={2}>
+                Ver assinaturas vinculadas por cartão:
+              </Typography>
+              <FormControl fullWidth>
+                <TextField
+                  label="Cartão de crédito"
+                  variant="outlined"
+                  select
+                  value={filterByCard}
+                  onChange={(event) => {
+                    setFilterByCard(event.target.value);
+                    if (event.target.value === null) {
+                      getSubscriptions({});
+                    } else {
+                      getSubscriptions({ card: event.target.value });
+                    }
+                  }}
+                  name="card"
+                  helperText={""}
+                >
+                  {renderCardsOptions()}
+                </TextField>
+              </FormControl>
+            </Grid>
+          </Box>
+
           <Box>
             {isLoading ? (
               <CircularProgress />
             ) : (
               <ListAll
                 data={subscriptions}
+                cards={cards}
                 onEdit={handleClickOnNewOrEdit}
                 onDelete={handleClickOnDelete}
               />

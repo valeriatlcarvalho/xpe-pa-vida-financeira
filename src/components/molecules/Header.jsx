@@ -1,22 +1,40 @@
-import { Avatar, Chip } from "@mui/material";
-import PersonIcon from '@mui/icons-material/Person';
+import { Avatar, Box, Chip, Container } from "@mui/material";
+import PersonIcon from "@mui/icons-material/Person";
 
 function Header({ children }) {
   return (
-    <header
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-      }}
-    >
-      <Chip label="Vida Financeira" />
+    <header>
+      <Box sx={{ backgroundColor: "primary.dark" }}>
+        <Container maxWidth="lg">
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <Chip
+              label="Vida Financeira"
+              sx={{
+                color: "primary.contrastText",
+                backgroundColor: "primary.light",
+                fontWeight: "bold",
+              }}
+            />
 
-      {children}
+            {children}
 
-      <Avatar>
-        <PersonIcon />
-      </Avatar>
+            <Avatar
+              sx={{
+                color: "primary.contrastText",
+                backgroundColor: "primary.light",
+              }}
+            >
+              <PersonIcon />
+            </Avatar>
+          </div>
+        </Container>
+      </Box>
     </header>
   );
 }

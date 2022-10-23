@@ -6,7 +6,11 @@ function Breadcrumbs({ items, ...props }) {
     <MUIBreadcrumbs aria-label="breadcrumb" {...props}>
       {items.map((item, i) => {
         if (items.length - 1 === i) {
-          return <Typography key="last-item" color="text.primary">{item.children}</Typography>;
+          return (
+            <Typography key="last-item" color="text.primary">
+              {item.children}
+            </Typography>
+          );
         } else {
           return (
             <Link

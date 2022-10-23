@@ -11,7 +11,7 @@ function Menu({ routes }) {
           component="button"
           variant="body2"
           key={`${route.routeName}-${i}`}
-          style={{ padding: "8px 16px" }}
+          sx={{ color: "primary.contrastText", py: 1, px: 2 }}
         >
           <Link to={route.path}>{route.title}</Link>
         </LinkMUI>
