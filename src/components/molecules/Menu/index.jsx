@@ -4,7 +4,7 @@ import "./styles.css";
 
 function Menu({ routes }) {
   return (
-    <ul>
+    <>
       {routes.map((route, i) => (
         <LinkMUI
           underline="hover"
@@ -16,7 +16,7 @@ function Menu({ routes }) {
           <Link to={route.path}>{route.title}</Link>
         </LinkMUI>
       ))}
-    </ul>
+    </>
   );
 }
 
