@@ -33,7 +33,7 @@ function ListAll({ data, onEdit, onDelete }) {
         <ListItem sx={{ px: 0, py: 2 }} divider={index < data.length - 1}>
           <Grid container display="flex" direction="column">
             <Grid container item>
-              <Grid item xs={12} md={6} display="flex" direction="column">
+              <Grid item xs={8} md={6} display="flex" direction="column">
                 <Typography component="h4" variant="h5" color="text.primary">
                   {item.name}
                 </Typography>
@@ -41,7 +41,7 @@ function ListAll({ data, onEdit, onDelete }) {
               <Grid
                 container
                 item
-                xs={12}
+                xs={4}
                 md={6}
                 display="flex"
                 alignItems="start"
@@ -78,7 +78,7 @@ function ListAll({ data, onEdit, onDelete }) {
               justifyContent="flex-start"
               spacing={2}
             >
-              <Grid item xs={4} display="flex" direction="column">
+              <Grid item xs={12} md={4} display="flex" direction="column">
                 <Typography
                   component="span"
                   variant="body2"
@@ -95,7 +95,7 @@ function ListAll({ data, onEdit, onDelete }) {
                 </Typography>
               </Grid>
 
-              <Grid item xs={4} display="flex" direction="column">
+              <Grid item xs={12} md={4} display="flex" direction="column">
                 <Typography
                   component="span"
                   variant="body2"
@@ -121,7 +121,8 @@ function ListAll({ data, onEdit, onDelete }) {
 
               <Grid
                 item
-                xs={4}
+                xs={12}
+                md={4}
                 display="flex"
                 direction="column"
                 justifyContent="flex-end"

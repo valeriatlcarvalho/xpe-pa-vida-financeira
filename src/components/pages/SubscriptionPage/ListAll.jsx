@@ -35,7 +35,7 @@ function ListAll({ data, cards, onEdit, onDelete }) {
         <ListItem sx={{ px: 0, py: 2 }} divider={index < data.length - 1}>
           <Grid container display="flex" direction="column">
             <Grid container item>
-              <Grid item xs={12} md={6} display="flex" direction="column">
+              <Grid item xs={8} md={6} display="flex" direction="column">
                 <Typography component="h4" variant="h5" color="text.primary">
                   {item.name}
                 </Typography>
@@ -44,7 +44,7 @@ function ListAll({ data, cards, onEdit, onDelete }) {
               <Grid
                 container
                 item
-                xs={12}
+                xs={4}
                 md={6}
                 display="flex"
                 alignItems="start"
